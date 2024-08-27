@@ -3,16 +3,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>Database</Name>
+    <Name>MyDatabase1</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{fb9dd7e2-9439-4f07-af41-77c9683501f6}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql150DatabaseSchemaProvider</DSP>
+    <ProjectGuid>{82f80169-00cc-48ef-b0c8-27b81ff8d955}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
-    <RootNamespace>Database</RootNamespace>
-    <AssemblyName>Database</AssemblyName>
+    <RootNamespace>MyDatabase1</RootNamespace>
+    <AssemblyName>MyDatabase1</AssemblyName>
     <ModelCollation>1033,CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
@@ -22,7 +22,7 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
-    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultCollation>Latin1_General_CI_AS</DefaultCollation>
     <DefaultFilegroup>PRIMARY</DefaultFilegroup>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -60,25 +60,36 @@
     <Folder Include="Properties" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
+    <Folder Include="Security\" />
     <Folder Include="api\" />
     <Folder Include="api\Stored Procedures\" />
-    <Folder Include="Security\" />
+    <Folder Include="Server Objects\" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\Event.sql" />
     <Build Include="dbo\Tables\Employee.sql" />
-    <Build Include="api\Stored Procedures\spEmployeeList.sql" />
-    <Build Include="api\Stored Procedures\spEmployeeGet.sql" />
-    <Build Include="api\Stored Procedures\spEmployeeExists.sql" />
-    <Build Include="api\Stored Procedures\spEmployeeCreate.sql" />
-    <Build Include="api\Stored Procedures\spEmployeeUpdate.sql" />
-    <Build Include="api\Stored Procedures\spEmployeeDelete.sql" />
-    <Build Include="api\Stored Procedures\spEventList.sql" />
-    <Build Include="api\Stored Procedures\spEventGet.sql" />
-    <Build Include="api\Stored Procedures\spEventExists.sql" />
-    <Build Include="api\Stored Procedures\spEventCreate.sql" />
-    <Build Include="api\Stored Procedures\spEventUpdate.sql" />
+    <Build Include="dbo\Tables\Event.sql" />
+    <Build Include="dbo\Tables\EmployeeEvents.sql" />
+    <Build Include="dbo\Tables\Drinks.sql" />
     <Build Include="api\Stored Procedures\spEventDelete.sql" />
+    <Build Include="api\Stored Procedures\spEventUpdate.sql" />
+    <Build Include="api\Stored Procedures\spEventCreate.sql" />
+    <Build Include="api\Stored Procedures\spEventExists.sql" />
+    <Build Include="api\Stored Procedures\spEventGet.sql" />
+    <Build Include="api\Stored Procedures\spEventList.sql" />
+    <Build Include="api\Stored Procedures\spEmployeeDelete.sql" />
+    <Build Include="api\Stored Procedures\spEmployeeUpdate.sql" />
+    <Build Include="api\Stored Procedures\spEmployeeCreate.sql" />
+    <Build Include="api\Stored Procedures\spEmployeeExists.sql" />
+    <Build Include="api\Stored Procedures\spEmployeeGet.sql" />
+    <Build Include="api\Stored Procedures\spEmployeeList.sql" />
+    <Build Include="api\Stored Procedures\spEmployeeEventsGetEmployees.sql" />
+    <Build Include="api\Stored Procedures\spEmployeeEventsInsert.sql" />
+    <Build Include="api\Stored Procedures\spEmployeeEventsDelete.sql" />
+    <Build Include="api\Stored Procedures\spEmployeeEventsExists.sql" />
+    <Build Include="api\Stored Procedures\spDrinksList.sql" />
+    <Build Include="api\Stored Procedures\spDrinkGet.sql" />
     <Build Include="Security\api.sql" />
+    <Build Include="Server Objects\AlwaysOn_health.sql" />
+    <Build Include="Server Objects\telemetry_xevents.sql" />
   </ItemGroup>
 </Project>

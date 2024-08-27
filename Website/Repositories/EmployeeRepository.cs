@@ -23,7 +23,7 @@ public class EmployeeRepository : RepositoryBase
     /// </summary>
     /// <param name="cancellationToken">A token which can be used to cancel asynchronous operations.</param>
     /// <returns>An awaitable task whose result is the employees found.</returns>
-    public async Task<IReadOnlyCollection<Employee>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<Employee>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         var command = new CommandDefinition(
             "[api].[spEmployeeList]",
@@ -35,7 +35,7 @@ public class EmployeeRepository : RepositoryBase
 
         return employees
             .OrderBy(x => x.LastName)
-            .ToArray();
+            .ToList();
     }
 
     /// <summary>
@@ -119,7 +119,8 @@ public class EmployeeRepository : RepositoryBase
             employee.Id,
             employee.FirstName,
             employee.LastName,
-            employee.DateOfBirth
+            employee.DateOfBirth,
+            DrinkId = employee.DrinkId
         };
 
         var command = new CommandDefinition(
@@ -152,5 +153,33 @@ public class EmployeeRepository : RepositoryBase
             cancellationToken: cancellationToken);
 
         await Connection.ExecuteAsync(command);
+    }
+
+    /// <summary>
+    /// returns all employees antending an event
+    /// </summary>
+    /// <param name="eventId">The ID of the event to retrieve attending employees</param>
+    /// <returns>An awaitable task.</returns>
+    public async Task<IEnumerable<Employee>> GetAttendingEmployeesByEventIdAsync(int id, CancellationToken cancellationToken)
+    {
+        var parameters = new
+        {
+            Id = id
+        };
+
+        var command = new CommandDefinition(
+            "[api].[spEmployeeEventsGetEmployees]",
+            parameters: parameters,
+            commandType: CommandType.StoredProcedure,
+            cancellationToken: cancellationToken);
+
+         var employees = await Connection.QueryAsync<Employee>(command);
+        
+        foreach (var employee in employees)
+        {
+            employee.IsAttendingEvent = true;
+        }
+
+        return employees;
     }
 }

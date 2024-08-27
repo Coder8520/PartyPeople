@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Logging;
 using System.Data;
 using Website.Models;
 using Website.Persistence;
@@ -122,6 +123,7 @@ public class EventRepository : RepositoryBase
     {
         var parameters = new
         {
+            @event.Id,
             @event.Description,
             @event.StartDateTime,
             @event.EndDateTime,
