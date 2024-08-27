@@ -37,6 +37,21 @@
                 <span>@Model.DateOfBirth.ToString("dd/MM/yyyy")</span>
             </div>
         </div>
+        <div class="row mb-3 g-2 align-items-center">
+            <div class="col-sm-2">
+                <span>Favourite Drink:</span>
+            </div>
+            <div class="col-sm-3">
+                @if (Model.FavouriteDrink == null)
+                {
+                    <span>None</span>
+                }
+                else
+                {
+                    <span>@Model.FavouriteDrink.Name</span>
+                }
+            </div>
+        </div>
     </div>
 </div>
 

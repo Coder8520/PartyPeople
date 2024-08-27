@@ -52,6 +52,11 @@
                     <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                 </div>
             </div>
+
+            <div class="row mb-3 g-3 align-items-center">
+                @Html.DropDownListFor(m => m.DrinkId, new SelectList(Model.FavouriteDrinks,"Id","Name"), "Select Drink", new { @class = "w-auto form-select" })
+            </div>
+
         </div>
     </div>
 </form>

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel;
 
 namespace Website.Models;
 
@@ -29,4 +30,12 @@ public class Employee
     /// </summary>
     [DisplayName("Date of Birth")]
     public required DateOnly DateOfBirth { get; init; }
+
+    public bool IsAttendingEvent { get; set; }
+
+    public int? DrinkId { get; set; }
+
+    public Drink? FavouriteDrink { get; set; }
+
+    public IEnumerable<Drink>? FavouriteDrinks { get; set; }
 }

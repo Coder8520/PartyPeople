@@ -48,6 +48,35 @@
     </div>
 </div>
 
+<h5 class="me-auto mb-0">Attending Employees</h5>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Employee Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            @if (!Model.AttendingEmployees.Any())
+            {
+                <tr class="table-warning text-center">
+                    <td>NO ATTENDING EMPLOYEES</td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var eventEmployee in Model.AttendingEmployees)
+                {
+                    <tr>
+                        <td>@($"{eventEmployee.FirstName} {eventEmployee.LastName}")</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
 <div class="modal fade" id="confirmDelete" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

@@ -1,4 +1,4 @@
-﻿@model Event;
+﻿@model EventEditModel;
 
 @{
     ViewData["Title"] = "Update Event";
@@ -7,64 +7,110 @@
 <form asp-controller="Event" asp-action="Edit">
     <div class="d-flex align-items-center mb-2">
         <h4 class="me-auto mb-0">Update Event</h4>
-        <a class="btn btn-outline-primary btn-sm m-1" role="button" asp-controller="Event" asp-action="Index">Back</a>
+        <a class="btn btn-outline-primary btn-sm m-1" role="button" asp-controller="Event" asp-action="Details" asp-route-id="@Model.Event.Id">Back</a>
         <input type="submit" value="Update" class="btn btn-primary btn-sm m-1" />
     </div>
 
     <div class="card">
         <div class="card-body">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                @Html.ValidationSummary(false, "", new { @class = "alert alert-danger"})
+            }
+
             <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
-            <input asp-for="Id" type="hidden" />
+            <input asp-for="@Model.Event.Id" type="hidden" />
 
             <div class="row mb-3 g-3 align-items-center">
                 <div class="col-sm-2">
-                    <label asp-for="Description" class="col-form-label"></label>
+                    <label asp-for="@Model.Event.Description" class="col-form-label"></label>
                 </div>
                 <div class="col-sm-3">
-                    <input asp-for="Description" class="form-control" />
+                    <input asp-for="@Model.Event.Description" class="form-control" />
                 </div>
                 <div class="col-auto">
-                    <span asp-validation-for="Description" class="text-danger"></span>
+                    <span asp-validation-for="@Model.Event.Description" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="row mb-3 g-3 align-items-center">
                 <div class="col-sm-2">
-                    <label asp-for="StartDateTime" class="col-form-label"></label>
+                    <label asp-for="@Model.Event.StartDateTime" class="col-form-label"></label>
                 </div>
                 <div class="col-sm-3">
-                    <input asp-for="StartDateTime" class="form-control" />
+                    <input asp-for="@Model.Event.StartDateTime" class="form-control" />
                 </div>
                 <div class="col-auto">
-                    <span asp-validation-for="StartDateTime" class="text-danger"></span>
+                    <span asp-validation-for="@Model.Event.StartDateTime" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="row mb-3 g-3 align-items-center">
                 <div class="col-sm-2">
-                    <label asp-for="EndDateTime" class="col-form-label"></label>
+                    <label asp-for="@Model.Event.EndDateTime" class="col-form-label"></label>
                 </div>
                 <div class="col-sm-3">
-                    <input asp-for="EndDateTime" class="form-control" />
+                    <input asp-for="@Model.Event.EndDateTime" class="form-control" />
                 </div>
                 <div class="col-auto">
-                    <span asp-validation-for="EndDateTime" class="text-danger"></span>
+                    <span asp-validation-for="@Model.Event.EndDateTime" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="row mb-3 g-3 align-items-center">
                 <div class="col-sm-2">
-                    <label asp-for="MaximumCapacity" class="col-form-label"></label>
+                    <label asp-for="@Model.Event.MaximumCapacity" class="col-form-label"></label>
                 </div>
                 <div class="col-sm-3">
-                    <input asp-for="MaximumCapacity" class="form-control" />
+                    <input asp-for="@Model.Event.MaximumCapacity" class="form-control" />
                 </div>
                 <div class="col-auto">
-                    <span asp-validation-for="MaximumCapacity" class="text-danger"></span>
+                    <span asp-validation-for="@Model.Event.MaximumCapacity" class="text-danger"></span>
                 </div>
             </div>
 
         </div>
+    </div>
+
+    <h5 class="me-auto mb-0">Attending Employees - Add or remove below</h5>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Employee Name</th>
+                    <th>Is Attending?</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Employees.Any())
+                {
+                    <tr class="table-warning text-center">
+                        <td>NO EMPLOYEES</td>
+                    </tr>
+                }
+                else
+                {
+                    @for (int i = 0; i < Model.Employees.Count; i++)
+                    {
+                        Employee employee = Model.Employees[i];
+
+                        <tr>
+                            @Html.HiddenFor(m => m.Employees[i].Id)
+                            @Html.HiddenFor(m => m.Employees[i].FirstName)
+                            @Html.HiddenFor(m => m.Employees[i].LastName)
+                            @Html.HiddenFor(m => m.Employees[i].DateOfBirth)
+                            <td>@($"{employee.FirstName} {employee.LastName}")</td>
+                            <td>
+                                <div class="form-check">
+                                   @Html.EditorFor(m => m.Employees[i].IsAttendingEvent)
+                                </div>
+                            </td>
+                        </tr>
+
+                    }
+                }
+            </tbody>
+        </table>
     </div>
 </form>
