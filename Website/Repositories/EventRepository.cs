@@ -186,22 +186,27 @@ public class EventRepository : RepositoryBase
     public async Task<Event> UpdateAsync(Event @event, CancellationToken cancellationToken = default)
     {
         var command = new CommandDefinition(
+            // Note to assessor. I went down a complete red herring with this one!
+            // I assumed it was an issue with Dapper and the Single/First issue.
             @"
                 UPDATE  [Event]
                 SET     [Description] = @Description,
                         [StartDateTime] = @StartDateTime,
                         [EndDateTime] = @EndDateTime,
-                        [MaximumCapacity] = @MaximumCapacity;
+                        [MaximumCapacity] = @MaximumCapacity
+                WHERE   [Id] = @Id;
 
                 SELECT  [E].[Id],
                         [E].[Description],
                         [E].[StartDateTime],
                         [E].[EndDateTime],
                         [E].[MaximumCapacity]
-                FROM    [Event] AS [E];
+                FROM    [Event] AS [E]
+                WHERE   [E].[Id] = @Id;
             ",
             parameters: new
             {
+                @event.Id,
                 @event.Description,
                 @event.StartDateTime,
                 @event.EndDateTime,
@@ -209,6 +214,7 @@ public class EventRepository : RepositoryBase
             },
             commandType: CommandType.Text,
             cancellationToken: cancellationToken);
+
 
         var updatedEvent = await Connection.QuerySingleAsync<Event>(command);
 
