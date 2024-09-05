@@ -65,6 +65,18 @@
                 </div>
             </div>
 
+            <div class="row mb-3 g-3 align-items-center">
+                <div class="col-sm-2">
+                    <label asp-for="EmployeeID" class="col-form-label"></label>
+                </div>
+                <div class="col-sm-3">
+                    <input asp-for="EmployeeID" class="form-control" />
+                </div>
+                <div class="col-auto">
+                    <span asp-validation-for="EmployeeID" class="text-danger"></span>
+                </div>
+            </div>
+
         </div>
     </div>
 </form>

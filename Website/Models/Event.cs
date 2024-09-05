@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel;
 
 namespace Website.Models;
 
@@ -37,4 +38,13 @@ public class Event
     /// </remarks>
     [DisplayName("Maximum Capacity")]
     public int? MaximumCapacity { get; init; }
+
+    /// <summary>
+    /// The employee attending the event.
+    /// </summary>
+    /// <remarks>
+    /// Currently accounts for one employee per event only, and by ID rather than name.
+    /// </remarks>
+    [DisplayName("Employee ID")]
+    public int? EmployeeID { get; init; }
 }
