@@ -35,4 +35,10 @@ public class Employee
     /// </summary>
     [DisplayName("Favourite Drink")]
     public required string? FavouriteDrink { get; init; }
+
+    /// <summary>
+    /// Simple attendance count.
+    /// </summary>
+    [DisplayName("Attendances")]
+    public required int? AttendanceCount { get; init; }
 }

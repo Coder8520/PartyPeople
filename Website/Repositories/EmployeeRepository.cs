@@ -232,4 +232,26 @@ public class EmployeeRepository : RepositoryBase
 
         await Connection.ExecuteAsync(command);
     }
+
+    /// PSEUDO CODE
+
+    /// <summary>
+    /// Sorts Employees By Number of Attendances.
+    /// </summary>
+    /// <param name="employeeId">The ID of the employee to delete.</param>
+    /// <returns>An awaitable task.</returns>
+
+    /// I'm out of time here. So I'll try and explain what I was doing:
+
+    /// 1. Create weak entity relationship class - "Attendances" using foreign keys of Employees and Events
+    /// 2. Create an attribute for the Employee class that was their total Attendances
+    /// 3. Create a function in AttendancesRespository that counted the number of JOINed Employee accounts
+    /// 4. In Employeerepository, create an SQL statement that populated the Employee.AttendanceCount attribute
+    /// 5. .OrderBy(x => x.AttendanceCount)
+    /// 6. Adjust the Index view for the Popular Employee's table to be of fixed size
+    /// 7. Populate that table by order of length
+    
+    /// Sadly, I didn't get there!
+
+
 }

@@ -223,4 +223,25 @@ public class AttendancesRepository : RepositoryBase
 
         await Connection.ExecuteAsync(command);
     }
+
+    /// <summary>
+    /// Should count attendances by employee
+    /// </summary>
+    /// <param name="EmployeeAttendanceCount">The tally of attendances per person</param>
+    /// <returns>An awaitable task.</returns>
+    public async Task<IEnumerable<EmployeeAttendanceCount>> GetEmployeeAttendanceCountsAsync(CancellationToken cancellationToken = default)
+{
+    var command = new CommandDefinition(
+        @"
+            SELECT  [A].[EmployeeID] AS EmployeeId,
+                    COUNT([A].[Id]) AS AttendanceCount
+            FROM    [Attendance] AS [A]
+            GROUP BY [A].[EmployeeID]
+            ORDER BY AttendanceCount DESC;
+        ",
+        cancellationToken: cancellationToken);
+
+    var result = await Connection.QueryAsync<EmployeeAttendanceCount>(command);
+    return result;
+}
 }
