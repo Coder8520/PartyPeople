@@ -38,6 +38,9 @@ public class EventValidator : AbstractValidator<Event>
             .GreaterThan(0)
             .When(x => x.MaximumCapacity is not null)
             .WithMessage($"The maximum capacity must be greater than 0. Leave this empty if there is no limit.");
+
+        // RuleFor(x => x.EmployeeID) add as required
+        
     }
 }
 

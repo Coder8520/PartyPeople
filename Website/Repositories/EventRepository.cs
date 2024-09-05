@@ -32,7 +32,9 @@ public class EventRepository : RepositoryBase
                     [Description] nvarchar(2147483647) NOT NULL COLLATE NOCASE,
                     [StartDateTime] datetime NOT NULL,
                     [EndDateTime] datetime NOT NULL,
-                    [MaximumCapacity] int NULL
+                    [MaximumCapacity] int NULL,
+                    [EmployeeID] int NULL,
+                    FOREIGN KEY ([EmployeeID]) REFERENCES [Employee]([Id])
                 );
             ",
             commandType: CommandType.Text,
@@ -54,7 +56,8 @@ public class EventRepository : RepositoryBase
                         [E].[Description],
                         [E].[StartDateTime],
                         [E].[EndDateTime],
-                        [E].[MaximumCapacity]
+                        [E].[MaximumCapacity],
+                        [E].[EmployeeID]
                 FROM    [Event] AS [E]
                 WHERE   (
                             @IncludeHistoricEvents = 1
@@ -89,7 +92,8 @@ public class EventRepository : RepositoryBase
                         [E].[Description],
                         [E].[StartDateTime],
                         [E].[EndDateTime],
-                        [E].[MaximumCapacity]
+                        [E].[MaximumCapacity],
+                        [E].[EmployeeID]
                 FROM    [Event] AS [E]
                 WHERE   [E].[Id] = @Id;
             ",
@@ -145,21 +149,24 @@ public class EventRepository : RepositoryBase
                     [Description],
                     [StartDateTime],
                     [EndDateTime],
-                    [MaximumCapacity]
+                    [MaximumCapacity],
+                    [EmployeeID]
                 )
                 VALUES
                 (
                     @Description,
                     @StartDateTime,
                     @EndDateTime,
-                    @MaximumCapacity
+                    @MaximumCapacity,
+                    @EmployeeID
                 );
 
                 SELECT  [E].[Id],
                         [E].[Description],
                         [E].[StartDateTime],
                         [E].[EndDateTime],
-                        [E].[MaximumCapacity]
+                        [E].[MaximumCapacity],
+                        [E].[EmployeeID]
                 FROM    [Event] AS [E]
                 WHERE   [E].[Id] = last_insert_rowid();
             ",
@@ -168,7 +175,8 @@ public class EventRepository : RepositoryBase
                 @event.Description,
                 @event.StartDateTime,
                 @event.EndDateTime,
-                @event.MaximumCapacity
+                @event.MaximumCapacity,
+                @event.EmployeeID
             },
             commandType: CommandType.Text,
             cancellationToken: cancellationToken);
@@ -191,24 +199,31 @@ public class EventRepository : RepositoryBase
                 SET     [Description] = @Description,
                         [StartDateTime] = @StartDateTime,
                         [EndDateTime] = @EndDateTime,
-                        [MaximumCapacity] = @MaximumCapacity;
+                        [MaximumCapacity] = @MaximumCapacity,
+                        [EmployeeID] = @EmployeeID
+                WHERE   [Id] = @Id;
 
                 SELECT  [E].[Id],
                         [E].[Description],
                         [E].[StartDateTime],
                         [E].[EndDateTime],
-                        [E].[MaximumCapacity]
-                FROM    [Event] AS [E];
+                        [E].[MaximumCapacity],
+                        [E].[EmployeeID]
+                FROM    [Event] AS [E]
+                WHERE   [E].[Id] = @Id;
             ",
             parameters: new
             {
+                @event.Id,
                 @event.Description,
                 @event.StartDateTime,
                 @event.EndDateTime,
-                @event.MaximumCapacity
+                @event.MaximumCapacity,
+                @event.EmployeeID
             },
             commandType: CommandType.Text,
             cancellationToken: cancellationToken);
+
 
         var updatedEvent = await Connection.QuerySingleAsync<Event>(command);
 

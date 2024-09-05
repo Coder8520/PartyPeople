@@ -31,7 +31,8 @@ public class EmployeeRepository : RepositoryBase
                     [Id] integer primary key,
                     [FirstName] nvarchar(2147483647) NOT NULL COLLATE NOCASE,
                     [LastName] nvarchar(2147483647) NOT NULL COLLATE NOCASE,
-                    [DateOfBirth] date NOT NULL
+                    [DateOfBirth] date NOT NULL,
+                    [FavouriteDrink] string NULL
                 );
             ",
             commandType: CommandType.Text,
@@ -52,7 +53,8 @@ public class EmployeeRepository : RepositoryBase
                 SELECT  [Id],
                         [FirstName],
                         [LastName],
-                        [DateOfBirth]
+                        [DateOfBirth],
+                        [FavouriteDrink]
                 FROM    [Employee] AS [E];
             ",
             commandType: CommandType.Text,
@@ -78,7 +80,8 @@ public class EmployeeRepository : RepositoryBase
                 SELECT  [E].[Id],
                         [E].[FirstName],
                         [E].[LastName],
-                        [E].[DateOfBirth]
+                        [E].[DateOfBirth],
+                        [FavouriteDrink]
                 FROM    [Employee] AS [E]
                 WHERE   [E].[Id] = @Id;
             ",
@@ -134,19 +137,22 @@ public class EmployeeRepository : RepositoryBase
                 (
                     [FirstName],
                     [LastName],
-                    [DateOfBirth]
+                    [DateOfBirth],
+                    [FavouriteDrink]
                 )
                 VALUES
                 (
                     @FirstName,
                     @LastName,
-                    @DateOfBirth
+                    @DateOfBirth,
+                    @FavouriteDrink
                 );
 
                 SELECT  [E].[Id],
                         [E].[FirstName],
                         [E].[LastName],
-                        [E].[DateOfBirth]
+                        [E].[DateOfBirth],
+                        [E].[FavouriteDrink]
                 FROM    [Employee] AS [E]
                 WHERE   [E].[Id] = last_insert_rowid();
             ",
@@ -154,7 +160,8 @@ public class EmployeeRepository : RepositoryBase
             {
                 employee.FirstName,
                 employee.LastName,
-                employee.DateOfBirth
+                employee.DateOfBirth,
+                employee.FavouriteDrink
             },
             commandType: CommandType.Text,
             cancellationToken: cancellationToken);
@@ -176,13 +183,15 @@ public class EmployeeRepository : RepositoryBase
                 UPDATE  [Employee]
                 SET     [FirstName] = @FirstName,
                         [LastName] = @LastName,
-                        [DateOfBirth] = @DateOfBirth
+                        [DateOfBirth] = @DateOfBirth,
+                        [FavouriteDrink] = @FavouriteDrink
                 WHERE   [Id] = @Id;
 
                 SELECT  [E].[Id],
                         [E].[FirstName],
                         [E].[LastName],
-                        [E].[DateOfBirth]
+                        [E].[DateOfBirth],
+                        [E].[FavouriteDrink]
                 FROM    [Employee] AS [E]
                 WHERE   [E].[Id] = @Id;
             ",
@@ -191,7 +200,8 @@ public class EmployeeRepository : RepositoryBase
                 employee.Id,
                 employee.FirstName,
                 employee.LastName,
-                employee.DateOfBirth
+                employee.DateOfBirth,
+                employee.FavouriteDrink
             },
             commandType: CommandType.Text,
             cancellationToken: cancellationToken);
@@ -222,4 +232,26 @@ public class EmployeeRepository : RepositoryBase
 
         await Connection.ExecuteAsync(command);
     }
+
+    /// PSEUDO CODE
+
+    /// <summary>
+    /// Sorts Employees By Number of Attendances.
+    /// </summary>
+    /// <param name="employeeId">The ID of the employee to delete.</param>
+    /// <returns>An awaitable task.</returns>
+
+    /// I'm out of time here. So I'll try and explain what I was doing:
+
+    /// 1. Create weak entity relationship class - "Attendances" using foreign keys of Employees and Events
+    /// 2. Create an attribute for the Employee class that was their total Attendances
+    /// 3. Create a function in AttendancesRespository that counted the number of JOINed Employee accounts
+    /// 4. In Employeerepository, create an SQL statement that populated the Employee.AttendanceCount attribute
+    /// 5. .OrderBy(x => x.AttendanceCount)
+    /// 6. Adjust the Index view for the Popular Employee's table to be of fixed size
+    /// 7. Populate that table by order of length
+    
+    /// Sadly, I didn't get there!
+
+
 }
